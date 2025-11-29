@@ -2,14 +2,72 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link rel="stylesheet" href="./assets/css/style.css" />
-        <title>Project</title>
+        <title>RPG</title>
     </head>
-
     <body>
-        start
+        <div id="game-wrap">
+            <canvas id="game-canvas'" width="1280" height="720"></canvas>
+
+            <div class="panel">
+                <h2>Ship HUD & Upgrades</h2>
+                <div class="status">
+                    <div class="stat">
+                        <div class="small">Coins</div>
+                        <div id="coins">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="small">Level</div>
+                        <div id="level">1</div>
+                    </div>
+                </div>
+
+                <div class="small">Ship parameters</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0">
+                    <div class="stat">
+                        <div class="small">Damage</div>
+                        <div id="damage">1</div>
+                    </div>
+                    <div class="stat">
+                        <div class="small">Fire Rate (shots/sec)</div>
+                        <div id="firerate">2</div>
+                    </div>
+                    <div class="stat">
+                        <div class="small">Speed</div>
+                        <div id="speed">300</div>
+                    </div>
+                    <div class="stat">
+                        <div class="small">HP</div>
+                        <div id="hp">10</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 8px; align-items: center">
+                    <button id="save-btn" class="btn">Save</button>
+                    <button id="reset-btn" class="btn">Reset</button>
+                </div>
+
+                <h2 style="margin-top: 12px">Shop</h2>
+                <div class="shop" id="shop">
+                    <!-- items added by JS -->
+                </div>
+
+                <div class="controls">
+                    <div class="small">Controls</div>
+                    <div style="display: flex; gap: 6px; margin-top: 6px">
+                        <button class="control-btn" id="left-btn">◀</button>
+                        <button class="control-btn" id="up-btn">▲</button>
+                        <button class="control-btn" id="down-btn">▼</button>
+                        <button class="control-btn" id="right-btn">▶</button>
+                    </div>
+                </div>
+
+                <footer>Prototype architecture — open the file in your browser to run</footer>
+            </div>
+        </div>
+
+        <div id="toast"></div>
 
         <script src="./assets/js/main.js"></script>
     </body>
