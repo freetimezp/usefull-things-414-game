@@ -1,16 +1,3 @@
-/*
-    Architecture overview (implemented):
-      - Game engine loop (Game class)
-      - Entities: Player, Enemy, Bullet, Coin
-      - Simple collision system
-      - Spawn manager for enemies
-      - Upgrade/shop system (persisted in localStorage)
-      - Input: keyboard + simple on-screen buttons
-      - Save/load + autosave
-
-    How to run: save this file as rpg-space-shooter.html and open in browser.
-  */
-
 // ---------- Utilities ----------
 const rand = (a, b) => Math.random() * (b - a) + a;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -30,15 +17,30 @@ class Game {
         this.spawnTimer = 0;
 
         this.shopData = [
-            { id: "dmg1", name: "+1 Damage", cost: 10, apply: (gs) => gs.player.upgradeDamage(1) },
+            {
+                id: "dmg1",
+                name: "+1 Damage",
+                cost: 10,
+                apply: (gs) => gs.player.upgradeDamage(1),
+            },
             {
                 id: "firerate1",
                 name: "+0.5 FireRate",
                 cost: 25,
                 apply: (gs) => gs.player.upgradeFireRate(0.5),
             },
-            { id: "speed1", name: "+50 Speed", cost: 20, apply: (gs) => gs.player.upgradeSpeed(50) },
-            { id: "hp1", name: "+5 Max HP", cost: 30, apply: (gs) => gs.player.upgradeMaxHp(5) },
+            {
+                id: "speed1",
+                name: "+50 Speed",
+                cost: 20,
+                apply: (gs) => gs.player.upgradeSpeed(50),
+            },
+            {
+                id: "hp1",
+                name: "+5 Max HP",
+                cost: 30,
+                apply: (gs) => gs.player.upgradeMaxHp(5),
+            },
         ];
 
         // load or create player
@@ -145,7 +147,9 @@ class Game {
         for (let i = 0; i < 100; i++) {
             ctx.fillStyle = "rgba(255,255,255," + Math.random() * 0.6 + ")";
             const x = (i * 37) % this.w;
-            const y = (i * 17 * (1 + Math.sin(performance.now() / 1000 + i))) % this.h;
+            const y =
+                (i * 17 * (1 + Math.sin(performance.now() / 1000 + i))) %
+                this.h;
             ctx.fillRect(x, y, 1, 1);
         }
 
@@ -159,7 +163,12 @@ class Game {
         ctx.save();
         ctx.fillStyle = "#ffffff88";
         ctx.font = "12px monospace";
-        ctx.fillText("Enemies: " + this.entities.filter((e) => e.type === "enemy").length, 10, 20);
+        ctx.fillText(
+            "Enemies: " +
+                this.entities.filter((e) => e.type === "enemy").length,
+            10,
+            20,
+        );
         ctx.restore();
     }
 
@@ -194,7 +203,12 @@ class Game {
 
 // ---------- Basic collision AABB ----------
 function collideRect(a, b) {
-    return !(a.x + a.w < b.x || a.x > b.x + b.w || a.y + a.h < b.y || a.y > b.y + b.h);
+    return !(
+        a.x + a.w < b.x ||
+        a.x > b.x + b.w ||
+        a.y + a.h < b.y ||
+        a.y > b.y + b.h
+    );
 }
 
 // ---------- Entities ----------
@@ -290,7 +304,13 @@ class Player extends Entity {
     }
 
     shoot() {
-        const b = new Bullet(this.x + this.w / 2 - 4, this.y - 10, 6, 14, this.damage);
+        const b = new Bullet(
+            this.x + this.w / 2 - 4,
+            this.y - 10,
+            6,
+            14,
+            this.damage,
+        );
         this.game.entities.push(b);
     }
 
@@ -400,7 +420,11 @@ class Enemy extends Entity {
             this.active = false;
             this.game.particles.push(new Particle(this.x, this.y, "explode"));
             // drop coin
-            this.game.spawnCoin(this.x + this.w / 2, this.y + this.h / 2, this.value);
+            this.game.spawnCoin(
+                this.x + this.w / 2,
+                this.y + this.h / 2,
+                this.value,
+            );
         }
     }
 }
@@ -492,18 +516,24 @@ class Input {
             if (e.key === "ArrowDown" || e.key === "s") this.down = false;
         });
 
-        window.addEventListener("pointerdown", (e) => {
-            this.pointerActive = true;
-            this.pointer.x = e.clientX;
-            this.pointer.y = e.clientY;
-        });
-        window.addEventListener("pointerup", (e) => {
-            this.pointerActive = false;
-        });
-        window.addEventListener("pointermove", (e) => {
-            this.pointer.x = e.clientX;
-            this.pointer.y = e.clientY;
-        });
+        document
+            .querySelector("#game-canvas")
+            .addEventListener("pointerdown", (e) => {
+                this.pointerActive = true;
+                this.pointer.x = e.clientX;
+                this.pointer.y = e.clientY;
+            });
+        document
+            .querySelector("#game-canvas")
+            .addEventListener("pointerup", (e) => {
+                this.pointerActive = false;
+            });
+        document
+            .querySelector("#game-canvas")
+            .addEventListener("pointermove", (e) => {
+                this.pointer.x = e.clientX;
+                this.pointer.y = e.clientY;
+            });
     }
 }
 
@@ -530,30 +560,44 @@ class UI {
         });
 
         // simple mobile control buttons
-        document.getElementById("left-btn").addEventListener("pointerdown", () => {
-            this.game.input.left = true;
-        });
-        document.getElementById("left-btn").addEventListener("pointerup", () => {
-            this.game.input.left = false;
-        });
-        document.getElementById("right-btn").addEventListener("pointerdown", () => {
-            this.game.input.right = true;
-        });
-        document.getElementById("right-btn").addEventListener("pointerup", () => {
-            this.game.input.right = false;
-        });
-        document.getElementById("up-btn").addEventListener("pointerdown", () => {
-            this.game.input.up = true;
-        });
+        document
+            .getElementById("left-btn")
+            .addEventListener("pointerdown", () => {
+                this.game.input.left = true;
+            });
+        document
+            .getElementById("left-btn")
+            .addEventListener("pointerup", () => {
+                this.game.input.left = false;
+            });
+        document
+            .getElementById("right-btn")
+            .addEventListener("pointerdown", () => {
+                this.game.input.right = true;
+            });
+        document
+            .getElementById("right-btn")
+            .addEventListener("pointerup", () => {
+                this.game.input.right = false;
+            });
+        document
+            .getElementById("up-btn")
+            .addEventListener("pointerdown", () => {
+                this.game.input.up = true;
+            });
         document.getElementById("up-btn").addEventListener("pointerup", () => {
             this.game.input.up = false;
         });
-        document.getElementById("down-btn").addEventListener("pointerdown", () => {
-            this.game.input.down = true;
-        });
-        document.getElementById("down-btn").addEventListener("pointerup", () => {
-            this.game.input.down = false;
-        });
+        document
+            .getElementById("down-btn")
+            .addEventListener("pointerdown", () => {
+                this.game.input.down = true;
+            });
+        document
+            .getElementById("down-btn")
+            .addEventListener("pointerup", () => {
+                this.game.input.down = false;
+            });
 
         this.buildShop();
         this.updateStats();

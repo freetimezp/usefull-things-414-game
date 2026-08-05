@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -8,7 +8,7 @@
     </head>
     <body>
         <div id="game-wrap">
-            <canvas id="game-canvas'" width="1280" height="720"></canvas>
+            <canvas id="game-canvas" width="1280" height="720"></canvas>
 
             <div class="panel">
                 <h2>Ship HUD & Upgrades</h2>
@@ -24,7 +24,14 @@
                 </div>
 
                 <div class="small">Ship parameters</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0">
+                <div
+                    style="
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 8px;
+                        margin: 8px 0;
+                    "
+                >
                     <div class="stat">
                         <div class="small">Damage</div>
                         <div id="damage">1</div>
@@ -49,6 +56,7 @@
                 </div>
 
                 <h2 style="margin-top: 12px">Shop</h2>
+
                 <div class="shop" id="shop">
                     <!-- items added by JS -->
                 </div>
@@ -63,7 +71,10 @@
                     </div>
                 </div>
 
-                <footer>Prototype architecture — open the file in your browser to run</footer>
+                <footer>
+                    Prototype architecture — open the file in your browser to
+                    run
+                </footer>
             </div>
         </div>
 
